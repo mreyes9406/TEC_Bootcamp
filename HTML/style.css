@@ -1,48 +1,16 @@
-.navbar-default .navbar-collapse, .navbar-default .navbar-form {
-    background-color: white;
-}
-
-.navbar-default .navbar-nav>.active>a {
-    background: lightseagreen; 
-    color: white; 
-    font-family: 'Georgia'; 
-    font-size: 25px
-}
 body {
     background-color: #D2D2D2
 }
-.container-fluid {
-    margin: 30px;
-    background-color: white
-}
-.Summary {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    margin-left: 30px;
-    margin-right: 30px;
-    background-color: white
-}
-.Visualizations {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    margin-left: 30px;
-    margin-right: 30px;
-    background-color: white
-}
-.temp_vs_lat {
-    display: block;
-    margin-left: auto;
-    margin-right: auto
-}
-.h1,h1 {
+h1 {
+    font-family: 'Georgia';
     color: lightseagreen;
-    font-family: 'Georgia'; 
-    font-size: 50px;
-    text-align: center 
+    font-size: 2em;
+    font-weight: bold
 }
-p {
-    font-size: 20px;
-    color: gray;
-    line-height: 40px;
+h2 {
+    font-family: 'Georgia';
+    color: lightseagreen;
+    font-size: 1.2em;
+    font-weight: bold;
     text-align: center
 }
