@@ -3,17 +3,31 @@ function buildMetadata(sample) {
   // @TODO: Complete the following function that builds the metadata panel
 
   // Use `d3.json` to fetch the metadata for a sample
-    // Use d3 to select the panel with id of `#sample-metadata`
+  var queryUrl = `http://127.0.0.1:5000/samples/${sample}`;
+  d3.json(queryUrl).then(function(data){
+    var sample = unpack(data.dataset.data, 0);
+    var ETHNICITY = unpack(data.dataset.data, 1);
+    var GENDER = unpack(data.dataset.data, 2);
+    var AGE = unpack(data.dataset.data, 3);
+    var LOCATION = unpack(data.dataset.data, 4);
+    var BBTYPE = unpack(data.dataset.data, 5);
+    var WFREQ = unpack(data.dataset.data, 6);
 
+    var sampleArray = map
+
+    // Use d3 to select the panel with id of `#sample-metadata`
+    var sampleMetaData = d3.select("#sample-metadata");
     // Use `.html("") to clear any existing metadata
 
     // Use `Object.entries` to add each key and value pair to the panel
+
     // Hint: Inside the loop, you will need to use d3 to append new
     // tags for each key-value in the metadata.
+  });
+}
 
     // BONUS: Build the Gauge Chart
     // buildGauge(data.WFREQ);
-}
 
 function buildCharts(sample) {
 
