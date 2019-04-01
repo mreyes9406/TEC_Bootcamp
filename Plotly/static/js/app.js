@@ -3,38 +3,58 @@ function buildMetadata(sample) {
   // @TODO: Complete the following function that builds the metadata panel
 
   // Use `d3.json` to fetch the metadata for a sample
-  var queryUrl = `http://127.0.0.1:5000/samples/${sample}`;
-  d3.json(queryUrl).then(function(data){
-    var sample = unpack(data.dataset.data, 0);
-    var ETHNICITY = unpack(data.dataset.data, 1);
-    var GENDER = unpack(data.dataset.data, 2);
-    var AGE = unpack(data.dataset.data, 3);
-    var LOCATION = unpack(data.dataset.data, 4);
-    var BBTYPE = unpack(data.dataset.data, 5);
-    var WFREQ = unpack(data.dataset.data, 6);
+    var metaDataQueryURL = `/metadata/${sample}`
 
-    var sampleArray = map
+    d3.json(metaDataQueryURL).then((metaData) => {
+      var sampleMetaData = metaData;
+    })
 
     // Use d3 to select the panel with id of `#sample-metadata`
-    var sampleMetaData = d3.select("#sample-metadata");
+    var metaDataPanel = d3.select("#sample-metadata");
     // Use `.html("") to clear any existing metadata
-
+    metaDataPanel.html("");
     // Use `Object.entries` to add each key and value pair to the panel
-
     // Hint: Inside the loop, you will need to use d3 to append new
     // tags for each key-value in the metadata.
-  });
-}
-
+    sampleMetaData.forEach((property) => {
+      metaDataPanel.append("li").text(`${Object.entries(property)[0]}: ${Object.entries(property)[1]}`)
+    })
     // BONUS: Build the Gauge Chart
     // buildGauge(data.WFREQ);
+}
 
 function buildCharts(sample) {
 
+  var dataQueryURL = `/samples/${sample}`
   // @TODO: Use `d3.json` to fetch the sample data for the plots
-
+  d3.json(dataQueryURL).then(function(data) {
+    var otuIDs = data.otu_ids;
+    var sampleValues = data.sample_values;
+    var otuLabels = data.otu_labels;
+  })
     // @TODO: Build a Bubble Chart using the sample data
+    var trace = {
+      x: otuIDs,
+      y: sampleValues,
+      text: otuLabels,
+      mode: 'markers',
+      marker: {
+        color: otuIDs,
+        size: sampleValues        
+      }
+    };
 
+    var data = [trace];
+
+    var layout = {
+      showlegend: false,
+      xaxis: {
+        title:"OTU ID"
+      }
+    };
+
+    Plotly.newPlot('bubble', data, layout);
+    
     // @TODO: Build a Pie Chart
     // HINT: You will need to use slice() to grab the top 10 sample_values,
     // otu_ids, and labels (10 each).
