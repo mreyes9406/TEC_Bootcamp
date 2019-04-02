@@ -1,0 +1,2 @@
+web: gunicorn app:appweb: belly_button.app:app
+web: Plotly.app:app
