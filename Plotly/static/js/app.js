@@ -42,7 +42,6 @@ function buildCharts(sample) {
       text: otuLabels,
       mode: 'markers',
       marker: {
-        color: otuLabels,
         size: sampleValues        
       }
     };

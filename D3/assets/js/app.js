@@ -26,6 +26,8 @@ var chartGroup = svg.append("g")
     // Parse Data/Cast as numbers
     healthData.forEach(function(data) {
       data.id = +data.id;
+      data.state = data.state;
+      data.abbr = data.abbr;
       data.poverty = +data.poverty;
       data.povertyMoe = +data.povertyMoe;
       data.age = +data.age;
@@ -52,11 +54,11 @@ var chartGroup = svg.append("g")
       .domain([4, d3.max(healthData, d => d.healthcare)])
       .range([height, 0]);
 
-    // Step 3: Create axis functions
+    // Create axis functions
     var bottomAxis = d3.axisBottom(xLinearScale);
     var leftAxis = d3.axisLeft(yLinearScale);
 
-    // Step 4: Append Axes to the chart
+    // Append Axes to the chart
     chartGroup.append("g")
       .attr("transform", `translate(0, ${height})`)
       .call(bottomAxis);
@@ -64,8 +66,7 @@ var chartGroup = svg.append("g")
     chartGroup.append("g")
       .call(leftAxis);
 
-        // Step 5: Create Circles
-    // ==============================
+    // Create Circles
     var circlesGroup = chartGroup.selectAll("circle")
     .data(healthData)
     .enter()
@@ -75,18 +76,23 @@ var chartGroup = svg.append("g")
     .attr("r", "15")
     .attr("fill", "lightblue");
 
-        // Step 6: Initialize tool tip
-    // ==============================
+    // Tooltip for displaying state code
     var toolTip = d3.tip()
       .attr("class", "tooltip")
-      .offset([80, -60])
       .html(function(d) {
-        return (`${d.abbr}`);
+        return (d.abbr);
       });
 
-    // Step 7: Create tooltip in the chart
-    // ==============================
     chartGroup.call(toolTip);
+
+    circlesGroup.on("mouseover", function(data) {
+      toolTip.show(data, this);
+    })
+
+      .on("mouseout", function(data, index) {
+        toolTip.hide(data);
+      });
+
 
     // Create axes labels
     chartGroup.append("text")
