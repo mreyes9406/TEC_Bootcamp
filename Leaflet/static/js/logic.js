@@ -13,15 +13,15 @@ function createMap(earthquakes) {
       "Light Map": lightmap
     };
   
-    // Create an overlayMaps object to hold the bikeStations layer
+    // Create an overlayMaps object to hold the earthquakes layer
     var overlayMaps = {
       "Earthquakes": earthquakes
     };
   
     // Create the map object with options
     var map = L.map("map-id", {
-      center: [40.73, -74.0059],
-      zoom: 12,
+      center: [0, 0],
+      zoom: 0,
       layers: [lightmap, earthquakes]
     });
   
@@ -33,24 +33,30 @@ function createMap(earthquakes) {
 
   function createMarkers(response) {
 
-    // Pull the "stations" property off of response.data
+    // Pull the "features" property off of response
     var features = response.features;
   
-    // Initialize an array to hold bike markers
+    // Initialize an array to hold earthquake markers
     var earthquakeMarkers = [];
   
-    // Loop through the stations array
+    // Loop through the features array
     for (var index = 0; index < features.length; index++) {
       var feature = features[index];
   
-      // For each station, create a marker and bind a popup with the station's name
-      var earthquakeMarker = L.marker([station.lat, station.lon])
-        .bindPopup("<h3>" + station.name + "<h3><h3>Capacity: " + station.capacity + "<h3>");
+      // For each feature, create a marker and bind a popup with the feature's place
+      var earthquakeMarker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]])
+        .bindPopup("<h3>" + feature.properties.place + "<h3>");
   
       // Add the marker to the bikeMarkers array
-      bikeMarkers.push(bikeMarker);
+      earthquakeMarkers.push(earthquakeMarker);
     }
   
     // Create a layer group made from the bike markers array, pass it into the createMap function
-    createMap(L.layerGroup(bikeMarkers));
+    createMap(L.layerGroup(earthquakeMarkers));
   }
+
+
+// Perform an API call to USGS to get data about last 30 days' significant earthquakes. Call createMarkers when complete
+d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson", createMarkers);
+ 
+  
